@@ -2,6 +2,10 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+
+### custom additions by me:
+*.vsconfig
+
 .utmp/
 /[Ll]ibrary/
 /[Tt]emp/
@@ -33,6 +37,7 @@
 
 # Visual Studio cache directory
 .vs/
+
 
 # Gradle cache directory
 .gradle/

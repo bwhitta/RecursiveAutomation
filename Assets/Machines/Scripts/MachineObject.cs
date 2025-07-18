@@ -1,38 +1,34 @@
+using System.Linq;
 using UnityEngine;
+using static CardinalDirectionUtils;
 
-public class MachineObject : MonoBehaviour
+public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
 {
     // Fields
-    private Machine _placedMachine;
-    public Machine PlacedMachine
-    {
-        get => _placedMachine;
-        set
-        {
-            _placedMachine = value;
-            MachineChanged();
-        }
-    }
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    public Machine PlacedMachine;
 
-    private SpriteRenderer _spriteRendererRef;
-    private SpriteRenderer SpriteRendererRef
-    {
-        get
-        {
-            return _spriteRendererRef = _spriteRendererRef != null ? _spriteRendererRef : GetComponent<SpriteRenderer>();
-        }
-    }
+    public Item ContainedItem { get; set; }
 
     // Methods
-    private void MachineChanged()
+    private void Start()
     {
-        if (PlacedMachine == null)
-        {
-            SpriteRendererRef.sprite = null;
-        }
-        else
-        {
-            SpriteRendererRef.sprite = PlacedMachine.sprite;
-        }
+        spriteRenderer.sprite = PlacedMachine.MachineSprite;
+    }
+
+    public void Tick(GridLogic gridLogic, Vector2Int gridPosition)
+    {
+        PlacedMachine.MachineTick(gridLogic, gridPosition);
+    }
+
+    public Item TakeItem()
+    {
+        var item = ContainedItem;
+        ContainedItem = null;
+        return item;
+    }
+    public bool AcceptsItem(Item item, CardinalDirection direction)
+    {
+        return PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item);
     }
 }

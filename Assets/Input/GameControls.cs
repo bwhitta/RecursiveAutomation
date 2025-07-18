@@ -111,9 +111,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""PickItem"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""e48aff73-2eb6-4c03-8f6f-44c642cbf439"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -132,6 +132,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""9b64581f-cbad-4869-991f-5b0f5529f497"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""HotbarChange"",
+                    ""type"": ""Value"",
+                    ""id"": ""6f889aa0-f434-42a3-92ae-5ace602ae272"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -300,6 +309,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": ""Scale(factor=8)"",
                     ""groups"": """",
                     ""action"": ""HotbarSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""88236862-62b8-4e8f-a506-1a7e819ad8c8"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HotbarChange"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -892,6 +912,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Gameplay_PickItem = m_Gameplay.FindAction("PickItem", throwIfNotFound: true);
         m_Gameplay_Point = m_Gameplay.FindAction("Point", throwIfNotFound: true);
         m_Gameplay_HotbarSelect = m_Gameplay.FindAction("HotbarSelect", throwIfNotFound: true);
+        m_Gameplay_HotbarChange = m_Gameplay.FindAction("HotbarChange", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -990,6 +1011,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_PickItem;
     private readonly InputAction m_Gameplay_Point;
     private readonly InputAction m_Gameplay_HotbarSelect;
+    private readonly InputAction m_Gameplay_HotbarChange;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -1021,6 +1043,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/HotbarSelect".
         /// </summary>
         public InputAction @HotbarSelect => m_Wrapper.m_Gameplay_HotbarSelect;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/HotbarChange".
+        /// </summary>
+        public InputAction @HotbarChange => m_Wrapper.m_Gameplay_HotbarChange;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1062,6 +1088,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @HotbarSelect.started += instance.OnHotbarSelect;
             @HotbarSelect.performed += instance.OnHotbarSelect;
             @HotbarSelect.canceled += instance.OnHotbarSelect;
+            @HotbarChange.started += instance.OnHotbarChange;
+            @HotbarChange.performed += instance.OnHotbarChange;
+            @HotbarChange.canceled += instance.OnHotbarChange;
         }
 
         /// <summary>
@@ -1088,6 +1117,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @HotbarSelect.started -= instance.OnHotbarSelect;
             @HotbarSelect.performed -= instance.OnHotbarSelect;
             @HotbarSelect.canceled -= instance.OnHotbarSelect;
+            @HotbarChange.started -= instance.OnHotbarChange;
+            @HotbarChange.performed -= instance.OnHotbarChange;
+            @HotbarChange.canceled -= instance.OnHotbarChange;
         }
 
         /// <summary>
@@ -1423,6 +1455,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHotbarSelect(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "HotbarChange" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnHotbarChange(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -25,9 +25,9 @@
                 },
                 {
                     "name": "PickItem",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "e48aff73-2eb6-4c03-8f6f-44c642cbf439",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -46,6 +46,15 @@
                     "type": "PassThrough",
                     "id": "9b64581f-cbad-4869-991f-5b0f5529f497",
                     "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "HotbarChange",
+                    "type": "Value",
+                    "id": "6f889aa0-f434-42a3-92ae-5ace602ae272",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -214,6 +223,17 @@
                     "processors": "Scale(factor=8)",
                     "groups": "",
                     "action": "HotbarSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88236862-62b8-4e8f-a506-1a7e819ad8c8",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HotbarChange",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

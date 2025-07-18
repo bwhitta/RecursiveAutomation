@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InventorySlot : MonoBehaviour
+public class HotbarSlot : MonoBehaviour
 {
     // Fields
     private Machine _machineInSlot;
@@ -32,8 +32,7 @@ public class InventorySlot : MonoBehaviour
         }
         else
         {
-            SpriteRendererRef.sprite = MachineInSlot.sprite;
+            SpriteRendererRef.sprite = MachineInSlot.MachineSprite;
         }
-
     }
 }

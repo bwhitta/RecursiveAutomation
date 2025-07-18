@@ -1,19 +1,17 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Hotbar : MonoBehaviour
 {
     // Fields
-    [SerializeField] private int totalSlots;
+    public const int TotalSlots = 8;
     [SerializeField] private Vector2 slotSpacing;
     [SerializeField] private bool centerSlots;
     
-    [SerializeField] private InventorySlot hotbarSlotPrefab;
+    [SerializeField] private HotbarSlot hotbarSlotPrefab;
     [SerializeField] private Machine[] defaultMachines;
 
-    [HideInInspector] public InventorySlot[] Slots;
-    public InventorySlot CurrentSlot => Slots[SelectedSlot];
+    [HideInInspector] public HotbarSlot[] Slots;
+    public HotbarSlot CurrentSlot => Slots[SelectedSlot];
 
     [SerializeField] private GameObject selectedSlotIndicator;
 
@@ -30,12 +28,14 @@ public class Hotbar : MonoBehaviour
         }
     }
 
+    private HotbarInputs _hotbarInputsRef;
+    public HotbarInputs HotbarInputsRef => _hotbarInputsRef != null ? _hotbarInputsRef : (_hotbarInputsRef = GetComponent<HotbarInputs>());
+
     // Methods
     private void Start()
     {
         // Set up events
         SlotSelected += OnSlotSelected;
-        ControlsManager.HotbarSelect.performed += OnHotbarInput;
 
         // Instantiate the slot objects
         CreateSlots();
@@ -46,12 +46,12 @@ public class Hotbar : MonoBehaviour
 
     private void CreateSlots()
     {
-        Vector2[] positions = Alignment.AlignedPoints(totalSlots, Vector2.zero, slotSpacing, centerSlots);
-        Slots = new InventorySlot[totalSlots];
-        for (int i = 0; i < totalSlots; i++)
+        Vector2[] positions = Alignment.AlignedPoints(TotalSlots, Vector2.zero, slotSpacing, centerSlots);
+        Slots = new HotbarSlot[TotalSlots];
+        for (int i = 0; i < TotalSlots; i++)
         {
             // Create the hotbar slot gameobject
-            InventorySlot hotbarSlot = Instantiate(hotbarSlotPrefab, transform.transform);
+            HotbarSlot hotbarSlot = Instantiate(hotbarSlotPrefab, transform.transform);
             hotbarSlot.transform.localPosition = positions[i];
 
             // Set up what is in the slot
@@ -61,25 +61,13 @@ public class Hotbar : MonoBehaviour
             }
 
             // Triggers when the slot is clicked
-            hotbarSlot.GetComponent<ClickableObject>().ObjectClicked += OnSlotClicked;
+            hotbarSlot.GetComponent<ClickableObject>().ObjectClicked += HotbarInputsRef.OnSlotClicked;
 
             // Save to an array
             Slots[i] = hotbarSlot;
         }
     }
 
-    private void OnSlotClicked(ClickableObject clickedObject)
-    {
-        int slotIndex = Array.IndexOf(Slots, clickedObject.GetComponent<InventorySlot>());
-        SelectedSlot = slotIndex;
-    }
-    private void OnHotbarInput(InputAction.CallbackContext context)
-    {
-        // gets the hotbar slot that the key was pressed for. value is 0 when key is released
-        int value = (int)context.ReadValue<float>();
-        if (value == 0) return;
-        SelectedSlot = value - 1;
-    }
     private void OnSlotSelected(int previousValue, int newValue)
     {
         Vector2 slotPosition = Slots[newValue].transform.localPosition;

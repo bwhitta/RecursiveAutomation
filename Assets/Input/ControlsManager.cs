@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public static class ControlsManager
@@ -18,6 +19,7 @@ public static class ControlsManager
     public static InputAction PickItem => GetInputAction(Controls.Gameplay.PickItem);
     public static InputAction Point => GetInputAction(Controls.Gameplay.Point);
     public static InputAction HotbarSelect => GetInputAction(Controls.Gameplay.HotbarSelect);
+    public static InputAction HotbarChange => GetInputAction(Controls.Gameplay.HotbarChange);
 
     private static InputAction GetInputAction(InputAction inputAction)
     {

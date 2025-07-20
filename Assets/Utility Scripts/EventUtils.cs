@@ -1,4 +1,4 @@
-public static class Events
+namespace EventUtils
 {
     public delegate void OnValueChanged<T>(T previousValue, T newValue);
 }

@@ -144,6 +144,24 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotateCW"",
+                    ""type"": ""Button"",
+                    ""id"": ""c29882c5-d320-4f3d-9fbb-b3a60ee9792a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotateCCW"",
+                    ""type"": ""Button"",
+                    ""id"": ""f6c52cb5-f9cd-46da-bf29-f1fe10e4ae9b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -320,6 +338,39 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""HotbarChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11626d38-8d8f-4ce5-bfd1-b1d1b6ff0d89"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03aea7b5-6486-4fee-92f1-fe46b5ee4b5a"",
+                    ""path"": ""<Mouse>/forwardButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffb5e406-46ca-493a-9d43-2d01da82954f"",
+                    ""path"": ""<Mouse>/backButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateCCW"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -913,6 +964,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Gameplay_Point = m_Gameplay.FindAction("Point", throwIfNotFound: true);
         m_Gameplay_HotbarSelect = m_Gameplay.FindAction("HotbarSelect", throwIfNotFound: true);
         m_Gameplay_HotbarChange = m_Gameplay.FindAction("HotbarChange", throwIfNotFound: true);
+        m_Gameplay_RotateCW = m_Gameplay.FindAction("RotateCW", throwIfNotFound: true);
+        m_Gameplay_RotateCCW = m_Gameplay.FindAction("RotateCCW", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1012,6 +1065,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Point;
     private readonly InputAction m_Gameplay_HotbarSelect;
     private readonly InputAction m_Gameplay_HotbarChange;
+    private readonly InputAction m_Gameplay_RotateCW;
+    private readonly InputAction m_Gameplay_RotateCCW;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -1047,6 +1102,14 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/HotbarChange".
         /// </summary>
         public InputAction @HotbarChange => m_Wrapper.m_Gameplay_HotbarChange;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/RotateCW".
+        /// </summary>
+        public InputAction @RotateCW => m_Wrapper.m_Gameplay_RotateCW;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/RotateCCW".
+        /// </summary>
+        public InputAction @RotateCCW => m_Wrapper.m_Gameplay_RotateCCW;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1091,6 +1154,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @HotbarChange.started += instance.OnHotbarChange;
             @HotbarChange.performed += instance.OnHotbarChange;
             @HotbarChange.canceled += instance.OnHotbarChange;
+            @RotateCW.started += instance.OnRotateCW;
+            @RotateCW.performed += instance.OnRotateCW;
+            @RotateCW.canceled += instance.OnRotateCW;
+            @RotateCCW.started += instance.OnRotateCCW;
+            @RotateCCW.performed += instance.OnRotateCCW;
+            @RotateCCW.canceled += instance.OnRotateCCW;
         }
 
         /// <summary>
@@ -1120,6 +1189,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @HotbarChange.started -= instance.OnHotbarChange;
             @HotbarChange.performed -= instance.OnHotbarChange;
             @HotbarChange.canceled -= instance.OnHotbarChange;
+            @RotateCW.started -= instance.OnRotateCW;
+            @RotateCW.performed -= instance.OnRotateCW;
+            @RotateCW.canceled -= instance.OnRotateCW;
+            @RotateCCW.started -= instance.OnRotateCCW;
+            @RotateCCW.performed -= instance.OnRotateCCW;
+            @RotateCCW.canceled -= instance.OnRotateCCW;
         }
 
         /// <summary>
@@ -1462,6 +1537,20 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHotbarChange(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateCW" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCW(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateCCW" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateCCW(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

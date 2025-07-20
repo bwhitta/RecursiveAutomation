@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4696070924252925725}
   - component: {fileID: 1002755436865723410}
-  - component: {fileID: 2242616414932181798}
   - component: {fileID: 276839558616804456}
   m_Layer: 0
   m_Name: MachineObjectPrefab
@@ -47,21 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 276839558616804456}
-  InventorySlot: {fileID: 2242616414932181798}
---- !u!114 &2242616414932181798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8723618421949690151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92ebf9c2d8362514386ee32e16d6b332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AcceptsAllItems: 0
-  AcceptedItems: []
+  PlacedMachine: {fileID: 0}
 --- !u!212 &276839558616804456
 SpriteRenderer:
   m_ObjectHideFlags: 0

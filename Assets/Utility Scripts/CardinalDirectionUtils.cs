@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class CardinalDirectionUtils
 {
-    public enum CardinalDirection { Up, Down, Left, Right }
+    public enum CardinalDirection { Up, Right, Down, Left }
     public static Vector2Int CardinalDirectionVector(CardinalDirection direction)
         {
             return direction switch
@@ -16,6 +16,11 @@ public static class CardinalDirectionUtils
                 _ => throw new NotImplementedException(),
             };
         }
+    public static CardinalDirection RotateCardinalDirection(CardinalDirection direction, int rotation)
+    {
+        int newRotationValue = Calculations.Modulo((int)direction + rotation, 4);
+        return (CardinalDirection)newRotationValue;
+    }
 
     [Serializable]
     public struct MultiCardinalDirections

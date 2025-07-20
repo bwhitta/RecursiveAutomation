@@ -26,5 +26,5 @@ public class DroppedItem : MonoBehaviour, IFillsGridSlot, IContainsItem
         return ContainedItem;
     }
 
-    public void Tick(GridLogic gridLogic, Vector2Int gridPosition) { /* does nothing when ticked */ }
+    public void Tick(GridLogic gridLogic, Vector2Int gridPosition, int tick) { /* does nothing when ticked */ }
 }

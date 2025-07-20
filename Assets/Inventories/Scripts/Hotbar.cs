@@ -16,7 +16,6 @@ public class Hotbar : MonoBehaviour
     [SerializeField] private GameObject selectedSlotIndicator;
 
     // Properties
-    private event Events.OnValueChanged<int> SlotSelected;
     private int _selectedSlot;
     public int SelectedSlot
     {
@@ -30,6 +29,9 @@ public class Hotbar : MonoBehaviour
 
     private HotbarInputs _hotbarInputsRef;
     public HotbarInputs HotbarInputsRef => _hotbarInputsRef != null ? _hotbarInputsRef : (_hotbarInputsRef = GetComponent<HotbarInputs>());
+
+    // Events
+    public event EventUtils.OnValueChanged<int> SlotSelected;
 
     // Methods
     private void Start()

@@ -58,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCW",
+                    "type": "Button",
+                    "id": "c29882c5-d320-4f3d-9fbb-b3a60ee9792a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RotateCCW",
+                    "type": "Button",
+                    "id": "f6c52cb5-f9cd-46da-bf29-f1fe10e4ae9b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -234,6 +252,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "HotbarChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11626d38-8d8f-4ce5-bfd1-b1d1b6ff0d89",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "03aea7b5-6486-4fee-92f1-fe46b5ee4b5a",
+                    "path": "<Mouse>/forwardButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ffb5e406-46ca-493a-9d43-2d01da82954f",
+                    "path": "<Mouse>/backButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RotateCCW",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 30049630448605982}
   - component: {fileID: 306301762910436271}
   - component: {fileID: -7210402994886453417}
+  - component: {fileID: -7208425655729937802}
   - component: {fileID: 730531147930492451}
   - component: {fileID: 8136700695963064458}
   m_Layer: 0
@@ -48,8 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   machineObjectPrefab: {fileID: 1002755436865723410, guid: 84552ae3603763c42abc681f56500920, type: 3}
-  GridSpacePosition: {x: 0, y: 0}
-  DroppedItem: {fileID: 0}
+  GridPosition: {x: 0, y: 0}
 --- !u!114 &-7210402994886453417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,6 +63,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSpace: {fileID: 306301762910436271}
+  cursorEvents: {fileID: -7208425655729937802}
+--- !u!114 &-7208425655729937802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8711573282505670432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9fc442d1ffb2c44bacc20ef9c93bfda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &730531147930492451
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -9,6 +9,20 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
     public Machine PlacedMachine;
 
     public Item ContainedItem { get; set; }
+    
+    private int _rotation;
+    [HideInInspector] public int Rotation
+    {
+        get
+        {
+            return _rotation;
+        }
+        set
+        {
+            transform.rotation = Quaternion.Euler(0, 0, value * -90);
+            _rotation = value;
+        }
+    }
 
     // Methods
     private void Start()
@@ -16,9 +30,9 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
         spriteRenderer.sprite = PlacedMachine.MachineSprite;
     }
 
-    public void Tick(GridLogic gridLogic, Vector2Int gridPosition)
+    public void Tick(GridLogic gridLogic, Vector2Int gridPosition, int tick)
     {
-        PlacedMachine.MachineTick(gridLogic, gridPosition);
+        PlacedMachine.MachineTick(gridLogic, gridPosition, Rotation, tick);
     }
 
     public Item TakeItem()
@@ -29,6 +43,7 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
     }
     public bool AcceptsItem(Item item, CardinalDirection direction)
     {
-        return PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item);
+        bool emptyInventory = ContainedItem == null;
+        return emptyInventory && (PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item));
     }
 }

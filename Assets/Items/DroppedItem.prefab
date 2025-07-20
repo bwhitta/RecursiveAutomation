@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 32152845726005467}
   - component: {fileID: 5762781879675629226}
-  - component: {fileID: 5410288319094282577}
   - component: {fileID: 5224148526031111946}
   m_Layer: 0
   m_Name: DroppedItem
@@ -47,21 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 5224148526031111946}
-  InventorySlot: {fileID: 5410288319094282577}
---- !u!114 &5410288319094282577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7726811774747624595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92ebf9c2d8362514386ee32e16d6b332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AcceptsAllItems: 1
-  AcceptedItems: []
 --- !u!212 &5224148526031111946
 SpriteRenderer:
   m_ObjectHideFlags: 0

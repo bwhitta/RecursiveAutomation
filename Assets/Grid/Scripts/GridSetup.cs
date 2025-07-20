@@ -8,13 +8,9 @@ public class GridSetup : MonoBehaviour
 
     // Properties
     private GridLogic _gridLogicRef;
-    private GridLogic GridLogicRef
-    {
-        get
-        {
-            return _gridLogicRef = _gridLogicRef != null ? _gridLogicRef : GetComponent<GridLogic>();
-        }
-    }
+    private GridLogic GridLogicRef => _gridLogicRef = _gridLogicRef != null ? _gridLogicRef : GetComponent<GridLogic>();
+    private GridInputs _gridInputsRef;
+    private GridInputs GridInputsRef => _gridInputsRef = _gridInputsRef != null ? _gridInputsRef : GetComponent<GridInputs>();
 
     // Methods
     private void Start()
@@ -47,7 +43,7 @@ public class GridSetup : MonoBehaviour
 
                 // Set up events
                 var gridSpaceInputs = gridSpace.GetComponent<GridSpaceInputs>();
-                gridSpaceInputs.GridSpaceInput += GridLogicRef.OnGridSpaceInput;
+                gridSpaceInputs.GridSpaceInput += GridInputsRef.OnGridSpaceInput;
             }
         }
     }

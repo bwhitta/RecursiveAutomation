@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Foundry
   m_EditorClassIdentifier: 
   MachineName: Foundry
-  MachineSprite: {fileID: 21300000, guid: 48495aaabb844674b9f137f3051258d8, type: 3}
+  MachineSprite: {fileID: 21300000, guid: 37a06ea34d868a94d8132fe97d824682, type: 3}
   AcceptsAllItems: 0
   AcceptedItems:
   - {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
@@ -27,5 +27,5 @@ MonoBehaviour:
     Down: 1
     Left: 1
     Right: 1
-  ProducedItem: {fileID: 0}
+  ProducedItem: {fileID: 11400000, guid: 27954a79a2efc3c48ab646afa2b3b01a, type: 2}
   TicksPerProduction: 10

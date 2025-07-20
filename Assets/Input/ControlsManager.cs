@@ -20,6 +20,8 @@ public static class ControlsManager
     public static InputAction Point => GetInputAction(Controls.Gameplay.Point);
     public static InputAction HotbarSelect => GetInputAction(Controls.Gameplay.HotbarSelect);
     public static InputAction HotbarChange => GetInputAction(Controls.Gameplay.HotbarChange);
+    public static InputAction RotateCW => GetInputAction(Controls.Gameplay.RotateCW);
+    public static InputAction RotateCCW => GetInputAction(Controls.Gameplay.RotateCCW);
 
     private static InputAction GetInputAction(InputAction inputAction)
     {

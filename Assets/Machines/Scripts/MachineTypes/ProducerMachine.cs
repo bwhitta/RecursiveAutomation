@@ -4,28 +4,24 @@ using static CardinalDirectionUtils;
 [CreateAssetMenu(menuName = "Scriptable Objects/Machines/Producer Machine")]
 public class ProducerMachine : Machine
 {
-    public MultiCardinalDirections OutputDirections;
+    public CardinalDirection OutputDirection;
     public Item ProducedItem;
     public int TicksPerProduction;
     // public int ItemsPerProduction;
 
-    private int ticksSinceProduction;
-    public override void MachineTick(GridLogic gridLogic, Vector2Int gridPosition)
+    public override void MachineTick(GridLogic gridLogic, Vector2Int gridPosition, int rotation, int tick)
     {
-        // maybe replace gridPosition with a reference to the original GridObject or something?
-        ticksSinceProduction++;
-        if (ticksSinceProduction >= TicksPerProduction)
+        // could instead make it so that the machine takes a certain amount of ticks to run (rather than running on an exact tick), and just only resets its value if it successfully outputs. Would need to track tick seperately on the MachineObject though
+        if ((tick % TicksPerProduction) == 0)
         {
-            ticksSinceProduction = 0;
-            foreach (CardinalDirection direction in OutputDirections.Directions)
+            CardinalDirection adjustedOutputDirection = RotateCardinalDirection(OutputDirection, rotation);
+            
+            // Try to output an item
+            Vector2Int targetPosition = gridPosition + CardinalDirectionVector(adjustedOutputDirection);
+            Debug.Log($"targetPosition: {targetPosition}");
+            if (gridLogic.IsPositionOnGrid(targetPosition))
             {
-                Vector2Int targetPosition = gridPosition + CardinalDirectionVector(direction);
-                bool sucessfulOutput = OutputItem(gridLogic, targetPosition, ProducedItem, direction);
-                if (sucessfulOutput)
-                {
-                    Debug.Log($"successfully outputted item in direction {direction}");
-                    break;
-                }
+                ItemManagement.OutputItem(gridLogic, targetPosition, ProducedItem, adjustedOutputDirection);
             }
         }
     }

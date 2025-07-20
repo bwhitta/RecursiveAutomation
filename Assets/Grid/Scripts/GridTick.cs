@@ -2,17 +2,24 @@ using UnityEngine;
 
 public class GridTick : MonoBehaviour
 {
-    public float ticksPerSecond;
+    // Constants
+    public const float TicksPerSecond = 10;
+    public static float TickFrequency => 1f / TicksPerSecond;
+
+    // Fields
     [SerializeField] private GridLogic gridLogic;
     public float TimeSinceLastTick { get; private set; }
+    public int TickCount;
 
-    // could move to FixedUpdate and make fixed update speed equal to ticks per second
+    // Methods
     private void Update()
     {
+        // could move to FixedUpdate and make fixed update speed equal to ticks per second
         TimeSinceLastTick += Time.deltaTime;
-        if (TimeSinceLastTick > (1f / ticksPerSecond))
+        if (TimeSinceLastTick > (1f / TicksPerSecond))
         {
-            TimeSinceLastTick -= 1f / ticksPerSecond;
+            TimeSinceLastTick -= 1f / TicksPerSecond;
+            TickCount = (TickCount + 1) % int.MaxValue;
             TickAllMachines();
         }
     }
@@ -22,7 +29,11 @@ public class GridTick : MonoBehaviour
         foreach(GridSpace gridSpace in gridLogic.GridSpaces)
         {
             // Ticks whatever is in the grid space if it's not null
-            gridSpace.GridObject?.Tick(gridLogic, gridSpace.GridPosition);
+            gridSpace.GridObject?.Tick(gridLogic, gridSpace.GridPosition, TickCount);
+            if (gridSpace.GridObject != null)
+            {
+                Debug.Log("object should be ticked");
+            }
         }
     }
 }

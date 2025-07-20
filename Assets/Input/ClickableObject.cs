@@ -14,7 +14,7 @@ public class ClickableObject : MonoBehaviour
     }
     public void OnClick(InputAction.CallbackContext context)
     {
-        if (CursorUtilities.MouseHoveringGameObject(gameObject))
+        if (CursorUtilities.MouseHovering(gameObject))
         {
             ObjectClicked?.Invoke(this);
         }

@@ -1,7 +1,11 @@
 using UnityEngine;
+using System;
 
 public class Hotbar : MonoBehaviour
 {
+    // Events
+    public event Action<int> SlotSelected;
+
     // Fields
     public const int TotalSlots = 8;
     [SerializeField] private Vector2 slotSpacing;
@@ -22,22 +26,19 @@ public class Hotbar : MonoBehaviour
         get => _selectedSlot;
         set
         {
-            SlotSelected?.Invoke(_selectedSlot, value);
             _selectedSlot = value;
+            SlotSelected?.Invoke(value);
         }
     }
 
     private HotbarInputs _hotbarInputsRef;
     public HotbarInputs HotbarInputsRef => _hotbarInputsRef != null ? _hotbarInputsRef : (_hotbarInputsRef = GetComponent<HotbarInputs>());
 
-    // Events
-    public event EventUtils.OnValueChanged<int> SlotSelected;
-
     // Methods
     private void Start()
     {
         // Set up events
-        SlotSelected += OnSlotSelected;
+        SlotSelected += MoveSlotIndicator;
 
         // Instantiate the slot objects
         CreateSlots();
@@ -69,8 +70,7 @@ public class Hotbar : MonoBehaviour
             Slots[i] = hotbarSlot;
         }
     }
-
-    private void OnSlotSelected(int previousValue, int newValue)
+    private void MoveSlotIndicator(int newValue)
     {
         Vector2 slotPosition = Slots[newValue].transform.localPosition;
         selectedSlotIndicator.transform.localPosition = new Vector3(slotPosition.x, slotPosition.y, selectedSlotIndicator.transform.localPosition.z);

@@ -8,8 +8,8 @@ public class GridTick : MonoBehaviour
 
     // Fields
     [SerializeField] private GridLogic gridLogic;
+    [HideInInspector] public int TickCount;
     public float TimeSinceLastTick { get; private set; }
-    public int TickCount;
 
     // Methods
     private void Update()
@@ -30,10 +30,6 @@ public class GridTick : MonoBehaviour
         {
             // Ticks whatever is in the grid space if it's not null
             gridSpace.GridObject?.Tick(gridLogic, gridSpace.GridPosition, TickCount);
-            if (gridSpace.GridObject != null)
-            {
-                Debug.Log("object should be ticked");
-            }
         }
     }
 }

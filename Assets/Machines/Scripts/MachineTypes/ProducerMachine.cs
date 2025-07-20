@@ -18,7 +18,6 @@ public class ProducerMachine : Machine
             
             // Try to output an item
             Vector2Int targetPosition = gridPosition + CardinalDirectionVector(adjustedOutputDirection);
-            Debug.Log($"targetPosition: {targetPosition}");
             if (gridLogic.IsPositionOnGrid(targetPosition))
             {
                 ItemManagement.OutputItem(gridLogic, targetPosition, ProducedItem, adjustedOutputDirection);

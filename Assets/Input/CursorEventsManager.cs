@@ -15,7 +15,10 @@ public class CursorEventsManager : MonoBehaviour
     {
         Instance = this;
         ControlsManager.Point.performed += OnPointerMoved;
+        ControlsManager.Point.canceled += OnPointerCancelled;
     }
+
+
     private void OnPointerMoved(InputAction.CallbackContext context)
     {
         CursorEvents hovered = CursorUtilities.MouseHovering(CursorEvents);
@@ -27,5 +30,10 @@ public class CursorEventsManager : MonoBehaviour
         {
             HoveringEnded?.Invoke();
         }
+    }
+    // Generally this is called when the player tabs out or clicks off the game
+    private void OnPointerCancelled(InputAction.CallbackContext context)
+    {
+        HoveringEnded?.Invoke();
     }
 }

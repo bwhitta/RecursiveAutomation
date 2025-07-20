@@ -1,29 +1,17 @@
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class GridInputs : MonoBehaviour
 {
+    // Events
+    //public delegate void OnGridSpaceHovered(GridSpace gridSpace); trying to replace this with an action
+    public event Action<GridSpace> GridSpaceHovered;
+
     // Fields
+    // might want to instead automatically get the scripts for these references
     [SerializeField] private Hotbar hotbar;
-    [SerializeField] private MachinePreview machinePreview;
     [SerializeField] private GridLogic gridLogic;
     
-    // Methods
-    private void Start()
-    {
-        ControlsManager.RotateCW.started += OnRotateCWInput;
-        ControlsManager.RotateCCW.started += OnRotateCCWInput;
-    }
-
-    private void OnRotateCWInput(InputAction.CallbackContext context)
-    {
-        machinePreview.PreviewRotation++;
-    }
-    private void OnRotateCCWInput(InputAction.CallbackContext context)
-    {
-        machinePreview.PreviewRotation--;
-    }
-
     public void OnGridSpaceInput(GridSpaceInputs.InputTypes inputType, Vector2Int gridSpacePosition)
     {
         var gridSpace = gridLogic.GridSpaces[gridSpacePosition.x, gridSpacePosition.y];
@@ -39,7 +27,7 @@ public class GridInputs : MonoBehaviour
                 GridSpacePickItemInput(gridSpace);
                 break;
             case GridSpaceInputs.InputTypes.Hovered:
-                machinePreview.OnMouseHoverMachine(gridSpace);
+                GridSpaceHovered?.Invoke(gridSpace);
                 break;
         }
     }

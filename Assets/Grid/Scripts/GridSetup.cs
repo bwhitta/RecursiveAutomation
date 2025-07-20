@@ -4,7 +4,7 @@ public class GridSetup : MonoBehaviour
 {
     // Fields
     [SerializeField] private GridSpace gridSpacePrefab;
-    [SerializeField] private float gridSpaceOffset;
+    public float gridSpaceOffset;
 
     // Properties
     private GridLogic _gridLogicRef;

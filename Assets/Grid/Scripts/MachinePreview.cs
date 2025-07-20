@@ -1,60 +1,64 @@
 using UnityEngine;
-using EventUtils;
+using UnityEngine.InputSystem;
 
 public class MachinePreview : MonoBehaviour
 {
-    // Events
-    public event OnValueChanged<int> RotationChanged;
-
     // Fields
-    [SerializeField] private SpriteRenderer machinePreviewObject;
-    [SerializeField] private GridLogic gridLogic;
+    [SerializeField] private GridInputs gridInputs;
     [SerializeField] private Hotbar hotbar;
+    [SerializeField] private SpriteRenderer machinePreview;
+    private GridSpace hoveredGridSpace;
 
     // Properties
     [HideInInspector] private int _previewRotation;
     public int PreviewRotation
     {
         get => _previewRotation;
-        set
-        {
-            int previousValue = _previewRotation;
-            _previewRotation = Calculations.Modulo(value, 4);
-            RotationChanged?.Invoke(previousValue, value);
-        }
+        set => _previewRotation = Calculations.Modulo(value, 4);
     }
 
+    // Methods
     private void Start()
     {
+        gridInputs.GridSpaceHovered += Hovering;
         CursorEventsManager.Instance.HoveringEnded += HoveringEnded;
-        hotbar.SlotSelected += RefreshVisuals;
-        RotationChanged += PreviewRotationChanged;
+        
+        ControlsManager.RotateCW.started += OnRotateCWInput;
+        ControlsManager.RotateCCW.started += OnRotateCCWInput;
     }
-    public void OnMouseHoverMachine(GridSpace gridSpace)
+    private void Update()
     {
-        machinePreviewObject.transform.position = gridLogic.GridSpaces[gridSpace.GridPosition.x, gridSpace.GridPosition.y].transform.position;
-        RefreshVisuals(default, hotbar.SelectedSlot);
+        UpdateMachinePreview();
     }
-    // set it up so that this is called every time the rotation changes (will need to set up an event for that probably)
-    public void PreviewRotationChanged(int previousValue, int newValue)
+    private void Hovering(GridSpace gridSpace)
     {
-        RefreshVisuals(default, hotbar.SelectedSlot);
-    }
-    public void RefreshVisuals(int _, int newValue)
-    {
-        if (hotbar.Slots[newValue].MachineInSlot != null)
-        {
-            machinePreviewObject.enabled = true;
-            machinePreviewObject.sprite = hotbar.Slots[newValue].MachineInSlot.MachineSprite;
-            machinePreviewObject.transform.rotation = Quaternion.Euler(0, 0, PreviewRotation * -90);
-        }
-        else
-        {
-            machinePreviewObject.enabled = false;
-        }
+        hoveredGridSpace = gridSpace;
     }
     private void HoveringEnded()
     {
-        machinePreviewObject.enabled = false;
+        hoveredGridSpace = null;
     }
+    private void UpdateMachinePreview()
+    {
+        if (hoveredGridSpace != null && hotbar.CurrentSlot.MachineInSlot != null)
+        {
+            machinePreview.enabled = true;
+            machinePreview.transform.SetPositionAndRotation(hoveredGridSpace.transform.position, Quaternion.Euler(0, 0, PreviewRotation * -90));
+            machinePreview.sprite = hotbar.CurrentSlot.MachineInSlot.MachineSprite;
+        }
+        else
+        {
+            machinePreview.enabled = false;
+        }
+    }
+
+    private void OnRotateCWInput(InputAction.CallbackContext context)
+    {
+        PreviewRotation++;
+    }
+    private void OnRotateCCWInput(InputAction.CallbackContext context)
+    {
+        PreviewRotation--;
+    }
+
 }

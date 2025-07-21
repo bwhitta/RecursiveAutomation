@@ -21,10 +21,8 @@ MonoBehaviour:
     Down: 0
     Left: 0
     Right: 0
-  OutputDirections:
-    Up: 1
-    Down: 1
-    Left: 1
-    Right: 1
-  ProducedItem: {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
+  OutputDirection: 0
   TicksPerProduction: 10
+  ProducedItems:
+    Item: {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
+    _quantity: 3

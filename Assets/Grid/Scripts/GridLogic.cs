@@ -18,10 +18,10 @@ public class GridLogic : MonoBehaviour
         machineObject.PlacedMachine = machine;
         GridSpaces[gridPosition.x, gridPosition.y].GridObject = machineObject;
     }
-    public void CreateDroppedItem(Vector2Int gridPosition, Item item)
+    public void CreateDroppedItem(Vector2Int gridPosition, ItemStack items)
     {
         DroppedItem droppedItem = Instantiate(droppedItemPrefab, GridSpaces[gridPosition.x, gridPosition.y].transform);
-        droppedItem.ContainedItem = item;
+        droppedItem.ContainedItemStack = items;
         GridSpaces[gridPosition.x, gridPosition.y].GridObject = droppedItem;
     }
     public bool IsPositionOnGrid(Vector2Int position)

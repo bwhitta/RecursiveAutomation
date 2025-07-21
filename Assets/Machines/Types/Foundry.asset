@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e22b88a54c77a554b85cb58d54f77d3c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a6cafda47925f944baad97e55baaa8d, type: 3}
   m_Name: Foundry
   m_EditorClassIdentifier: 
   MachineName: Foundry
@@ -18,14 +18,16 @@ MonoBehaviour:
   AcceptedItems:
   - {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
   InputDirections:
-    Up: 1
+    Up: 0
     Down: 1
     Left: 1
     Right: 1
-  OutputDirections:
-    Up: 1
-    Down: 1
-    Left: 1
-    Right: 1
-  ProducedItem: {fileID: 11400000, guid: 27954a79a2efc3c48ab646afa2b3b01a, type: 2}
+  OutputDirection: 0
+  recipes:
+  - inputItems:
+      Item: {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
+      _quantity: 1
+    outputItems:
+      Item: {fileID: 11400000, guid: 27954a79a2efc3c48ab646afa2b3b01a, type: 2}
+      _quantity: 2
   TicksPerProduction: 10

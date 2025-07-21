@@ -770,7 +770,7 @@ MonoBehaviour:
   hotbarSlotPrefab: {fileID: 4514587889902816826, guid: 1226354241e31cc479e82d1ae98d2ff0, type: 3}
   defaultMachines:
   - {fileID: 11400000, guid: 0ff045d7398d3e64eada13fe3061a819, type: 2}
-  - {fileID: 11400000, guid: a87dcc32bb4519f4892d3bdf4e4a565f, type: 2}
+  - {fileID: 11400000, guid: e213e8525018b1247adde848d4bc97bd, type: 2}
   Slots: []
   selectedSlotIndicator: {fileID: 813059923}
 --- !u!114 &1714327748
@@ -963,7 +963,7 @@ Transform:
   m_GameObject: {fileID: 1879945315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.10473, y: -0.76993, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

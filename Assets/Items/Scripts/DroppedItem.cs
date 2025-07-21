@@ -1,30 +1,24 @@
 using UnityEngine;
 using static CardinalDirectionUtils;
 
-public class DroppedItem : MonoBehaviour, IFillsGridSlot, IContainsItem
+public class DroppedItem : MonoBehaviour, IFillsGridSlot, IContainsItemStack
 {
     // Fields
     [SerializeField] private SpriteRenderer spriteRenderer;
 
     // Properties
-    private Item _containedItem;
-    public Item ContainedItem
+    private ItemStack _containedItem;
+    public ItemStack ContainedItemStack
     {
         get => _containedItem;
         set
         {
-            spriteRenderer.sprite = value.ItemSprite;
+            spriteRenderer.sprite = value.Item.ItemSprite;
             _containedItem = value;
         }
     }
 
     // Methods
     public bool AcceptsItem(Item item, CardinalDirection direction) => false;
-    public Item TakeItem()
-    {
-        Destroy(gameObject);
-        return ContainedItem;
-    }
-
-    public void Tick(GridLogic gridLogic, Vector2Int gridPosition, int tick) { /* does nothing when ticked */ }
+    public void Tick(GridLogic gridLogic, GridSpace gridSpace, int tick) { /* does nothing when ticked */ }
 }

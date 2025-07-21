@@ -10,12 +10,11 @@ public abstract class Machine : ScriptableObject
 
     //public bool HoldsItems;
     public bool AcceptsAllItems;
-    // could make this automatically
     public Item[] AcceptedItems;
     public MultiCardinalDirections InputDirections;
 
     // Abstract Methods
-    public abstract void MachineTick(GridLogic gridLogic, Vector2Int gridPosition, int rotation, int tick);
+    public abstract void MachineTick(GridLogic gridLogic, GridSpace gridSpace, int rotation, int tick);
     // public abstract Item CalculateOutputs(out float quantityPerSecond);
     // public abstract Item CalculateInputs(out float quantityPerSecond);
 }

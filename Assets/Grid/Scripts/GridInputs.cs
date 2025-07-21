@@ -4,11 +4,9 @@ using UnityEngine;
 public class GridInputs : MonoBehaviour
 {
     // Events
-    //public delegate void OnGridSpaceHovered(GridSpace gridSpace); trying to replace this with an action
     public event Action<GridSpace> GridSpaceHovered;
 
     // Fields
-    // might want to instead automatically get the scripts for these references
     [SerializeField] private Hotbar hotbar;
     [SerializeField] private GridLogic gridLogic;
     

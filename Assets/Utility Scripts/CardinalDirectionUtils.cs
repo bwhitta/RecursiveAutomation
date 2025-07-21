@@ -21,11 +21,18 @@ public static class CardinalDirectionUtils
         int newRotationValue = Calculations.Modulo((int)direction + rotation, 4);
         return (CardinalDirection)newRotationValue;
     }
+    public static CardinalDirection FlipCardinalDirection(CardinalDirection direction)
+    {
+        return RotateCardinalDirection(direction, 2);
+    }
 
     [Serializable]
     public struct MultiCardinalDirections
     {
-        public bool Up, Down, Left, Right;
+        // Fields
+        public bool Up, Right, Down, Left;
+        
+        // Properties
         public readonly CardinalDirection[] Directions
         {
             get
@@ -38,10 +45,6 @@ public static class CardinalDirectionUtils
                 return directionVectors.ToArray();
             }
         }
-        public readonly bool IncludesDirection(CardinalDirection direction)
-        {
-            return Array.IndexOf(Directions, direction) != -1;
-        }
         public readonly Vector2Int[] CardinalDirectionVectors
         {
             get
@@ -53,6 +56,17 @@ public static class CardinalDirectionUtils
                 }
                 return directionVectors.ToArray();
             }
+        }
+        
+        // Methods
+        public readonly CardinalDirection[] RotatedDirections(int turns)
+        {
+            var rotated = new CardinalDirection[Directions.Length];
+            for (int i = 0; i < Directions.Length; i++)
+            {
+                rotated[i] = RotateCardinalDirection(Directions[i], turns);
+            }
+            return rotated;
         }
     }
 }

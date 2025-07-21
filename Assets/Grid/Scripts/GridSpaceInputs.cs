@@ -10,8 +10,8 @@ public class GridSpaceInputs : MonoBehaviour
         PickItem,
         Hovered
     }
-    public delegate void OnGridSpaceInput(InputTypes inputType, Vector2Int gridSpacePosition);
-    public event OnGridSpaceInput GridSpaceInput;
+    public delegate void GridSpaceInputHandler(InputTypes inputType, Vector2Int gridSpacePosition);
+    public event GridSpaceInputHandler GridSpaceInput;
 
     // Fields
     [SerializeField] private GridSpace gridSpace;

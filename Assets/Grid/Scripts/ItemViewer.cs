@@ -31,7 +31,7 @@ public class ItemViewer : MonoBehaviour
     }
     private void UpdateItemViewer()
     {
-        if (GridSpaceHasItem(hoveredGridSpace, out IContainsItem inventory))
+        if (GridSpaceHasItem(hoveredGridSpace, out IContainsItemStack inventory))
         {
             itemViewerCanvas.gameObject.SetActive(true);
 
@@ -41,15 +41,15 @@ public class ItemViewer : MonoBehaviour
 
             // could add a bool to the IContainsItem called "ShowInItemViewer" that allows it to be hidden. depends on if I want dropped items to be stackable, if they aren't then I should add it.
             itemViewerCanvas.gameObject.SetActive(true);
-            quantityText.text = "1"; // will replace with quantity
-            itemImage.sprite = inventory.ContainedItem.ItemSprite;
+            quantityText.text = inventory.ContainedItemStack.Quantity.ToString(); // will replace with quantity
+            itemImage.sprite = inventory.ContainedItemStack.Item.ItemSprite;
         }
         else
         {
             itemViewerCanvas.gameObject.SetActive(false);
         }
     }
-    private bool GridSpaceHasItem(GridSpace gridSpace, out IContainsItem inventory)
+    private bool GridSpaceHasItem(GridSpace gridSpace, out IContainsItemStack inventory)
     {
         if (gridSpace == null || gridSpace.GridObject == null)
         {
@@ -57,8 +57,8 @@ public class ItemViewer : MonoBehaviour
             return false;
         }
 
-        inventory = gridSpace.GridObject as IContainsItem;
-        return inventory != null && inventory.ContainedItem != null;
+        inventory = gridSpace.GridObject as IContainsItemStack;
+        return inventory != null && inventory.ContainedItemStack.Item != null;
     }
     private void HoveringEnded()
     {

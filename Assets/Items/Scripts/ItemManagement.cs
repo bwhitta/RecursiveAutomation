@@ -3,35 +3,30 @@ using static CardinalDirectionUtils;
 
 public static class ItemManagement
 {
-    public static bool OutputItem(GridLogic grid, Vector2Int targetPosition, Item item, CardinalDirection outputDirection)
+    public static bool OutputItems(GridLogic grid, Vector2Int targetPosition, ItemStack producedItems, CardinalDirection outputDirection, out ItemStack excessItems)
     {
         GridSpace targetGridSpace = grid.GridSpaces[targetPosition.x, targetPosition.y];
         if (targetGridSpace.GridObject != null)
         {
-            var targetInventory = targetGridSpace.GridObject as IContainsItem;
-            if (targetInventory != null)
+            var targetInventory = targetGridSpace.GridObject as IContainsItemStack;
+            if (targetInventory != null && targetInventory.AcceptsItem(producedItems.Item, outputDirection))
             {
-                return InsertItem(item, targetInventory, outputDirection);
+                targetInventory.ContainedItemStack = ItemStack.AddItemStack(targetInventory.ContainedItemStack, producedItems, out excessItems);
+                bool succesfulOutput = excessItems.Quantity != producedItems.Quantity;
+                return succesfulOutput;
             }
             else
             {
+                excessItems = producedItems;
                 return false;
             }
         }
         else
         {
-            grid.CreateDroppedItem(targetPosition, item);
-            return true;
-        }
-    }
 
-    public static bool InsertItem(Item item, IContainsItem targetInventory, CardinalDirection direction)
-    {
-        if (targetInventory.AcceptsItem(item, direction))
-        {
-            targetInventory.ContainedItem = item;
+            grid.CreateDroppedItem(targetPosition, producedItems);
+            excessItems = default;
             return true;
         }
-        else return false;
     }
 }

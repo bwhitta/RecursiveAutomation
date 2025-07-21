@@ -28,8 +28,7 @@ public class GridTick : MonoBehaviour
     {
         foreach(GridSpace gridSpace in gridLogic.GridSpaces)
         {
-            // Ticks whatever is in the grid space if it's not null
-            gridSpace.GridObject?.Tick(gridLogic, gridSpace.GridPosition, TickCount);
+            gridSpace.Tick(gridLogic, TickCount);
         }
     }
 }

@@ -2,14 +2,14 @@ using System.Linq;
 using UnityEngine;
 using static CardinalDirectionUtils;
 
-public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
+public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItemStack
 {
     // Fields
     [SerializeField] private SpriteRenderer spriteRenderer;
     public Machine PlacedMachine;
 
-    public Item ContainedItem { get; set; }
-    
+    public ItemStack ContainedItemStack { get; set; }
+
     private int _rotation;
     [HideInInspector] public int Rotation
     {
@@ -27,23 +27,25 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItem
     // Methods
     private void Start()
     {
+        // handy for debugging, and shouldn't really add any lag.
+        gameObject.name = PlacedMachine.name + "Object";
         spriteRenderer.sprite = PlacedMachine.MachineSprite;
     }
 
-    public void Tick(GridLogic gridLogic, Vector2Int gridPosition, int tick)
+    public void Tick(GridLogic gridLogic, GridSpace gridSpace, int tick)
     {
-        PlacedMachine.MachineTick(gridLogic, gridPosition, Rotation, tick);
+        PlacedMachine.MachineTick(gridLogic, gridSpace, Rotation, tick);
     }
 
-    public Item TakeItem()
-    {
-        var item = ContainedItem;
-        ContainedItem = null;
-        return item;
-    }
     public bool AcceptsItem(Item item, CardinalDirection direction)
     {
-        bool emptyInventory = ContainedItem == null;
-        return emptyInventory && (PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item));
+        bool itemTypeAccepted = PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item);
+        bool itemTypeFits = ContainedItemStack.Item == null || ContainedItemStack.Item == item || ContainedItemStack.Quantity < ContainedItemStack.Item.StackSize;
+
+        CardinalDirection inputSide = FlipCardinalDirection(direction);
+        CardinalDirection[] inputDirections = PlacedMachine.InputDirections.RotatedDirections(Rotation);
+        bool acceptableDirection = inputDirections.Contains(inputSide);
+
+        return itemTypeAccepted && acceptableDirection && itemTypeFits;
     }
 }

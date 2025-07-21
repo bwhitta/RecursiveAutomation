@@ -23,4 +23,12 @@ public class GridSpace : MonoBehaviour
             _gridObject = value;
         }
     }
+
+    public void Tick(GridLogic gridLogic, int tick)
+    {
+        if (GridObject != null)
+        {
+            GridObject.Tick(gridLogic, this, tick);
+        }
+    }
 }

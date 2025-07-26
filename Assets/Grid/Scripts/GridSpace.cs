@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GridSpace : MonoBehaviour
 {
@@ -30,5 +30,21 @@ public class GridSpace : MonoBehaviour
         {
             GridObject.Tick(gridLogic, this, tick);
         }
+    }
+
+    public List<GridSpace> AdjacentSpaces(GridLogic gridLogic, GridSpace gridSpace)
+    {
+        Vector2Int[] directionOffsets = { new(0, 1), new(1, 0), new(0, -1), new(-1, 0) };
+
+        List<GridSpace> adjacentSpaces = new();
+        foreach (var direction in directionOffsets)
+        {
+            Vector2Int offsetPosition = gridSpace.GridPosition + direction;
+            if (gridLogic.IsPositionOnGrid(offsetPosition))
+            {
+                adjacentSpaces.Add(gridLogic.GridSpaces[offsetPosition.x, offsetPosition.y]);
+            }
+        }
+        return adjacentSpaces;
     }
 }

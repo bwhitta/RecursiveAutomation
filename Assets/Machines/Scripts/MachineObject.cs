@@ -39,8 +39,8 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItemStack
 
     public bool AcceptsItem(Item item, CardinalDirection direction)
     {
-        bool itemTypeAccepted = PlacedMachine.AcceptsAllItems || PlacedMachine.AcceptedItems.Contains(item);
-        bool itemTypeFits = ContainedItemStack.Item == null || ContainedItemStack.Item == item || ContainedItemStack.Quantity < ContainedItemStack.Item.StackSize;
+        bool itemTypeAccepted = PlacedMachine.AcceptsItem(item);
+        bool itemTypeFits = ContainedItemStack.Item == null || (ContainedItemStack.Item == item && ContainedItemStack.Quantity < ContainedItemStack.Item.StackSize);
 
         CardinalDirection inputSide = FlipCardinalDirection(direction);
         CardinalDirection[] inputDirections = PlacedMachine.InputDirections.RotatedDirections(Rotation);

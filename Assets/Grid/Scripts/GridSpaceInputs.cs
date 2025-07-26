@@ -18,7 +18,7 @@ public class GridSpaceInputs : MonoBehaviour
     [SerializeField] private CursorEvents cursorEvents;
 
     // Methods
-    private void Start()
+    private void OnEnable()
     {
         // Setup input detection
         ControlsManager.Interact.started += OnInteractInput;
@@ -26,6 +26,7 @@ public class GridSpaceInputs : MonoBehaviour
         ControlsManager.PickItem.started += OnPickItemInput;
         cursorEvents.Hovered += OnHovered;
     }
+
     public void OnInteractInput(InputAction.CallbackContext context) => CheckInputPosition(InputTypes.Interact);
     public void OnRemoveInput(InputAction.CallbackContext context) => CheckInputPosition(InputTypes.Remove);
     public void OnPickItemInput(InputAction.CallbackContext context) => CheckInputPosition(InputTypes.PickItem);

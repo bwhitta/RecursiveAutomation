@@ -11,7 +11,7 @@ public class GridSetup : MonoBehaviour
     private GridLogic GridLogicRef => _gridLogicRef = _gridLogicRef != null ? _gridLogicRef : GetComponent<GridLogic>();
     private GridInputs _gridInputsRef;
     private GridInputs GridInputsRef => _gridInputsRef = _gridInputsRef != null ? _gridInputsRef : GetComponent<GridInputs>();
-
+    
     // Methods
     private void Start()
     {
@@ -37,7 +37,7 @@ public class GridSetup : MonoBehaviour
             {
                 // Create the gameobject
                 GridSpace gridSpace = Instantiate(gridSpacePrefab, transform);
-                gridSpace.transform.localPosition = new Vector2(xPositions[gridX], yPositions[gridY]);
+                gridSpace.transform.localPosition = new(xPositions[gridX], yPositions[gridY], gridSpace.transform.position.z);
                 gridSpace.GridPosition = new(gridX, gridY);
                 GridLogicRef.GridSpaces[gridX, gridY] = gridSpace;
 

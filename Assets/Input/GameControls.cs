@@ -162,6 +162,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ProcessTempSelect"",
+                    ""type"": ""Button"",
+                    ""id"": ""79a2bd83-e36d-4a1e-9d21-e7c5202266bd"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -371,6 +380,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RotateCCW"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98a2e5ef-ebdf-45b1-9e4c-6e3ed7d5c7ee"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ProcessTempSelect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -966,6 +986,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Gameplay_HotbarChange = m_Gameplay.FindAction("HotbarChange", throwIfNotFound: true);
         m_Gameplay_RotateCW = m_Gameplay.FindAction("RotateCW", throwIfNotFound: true);
         m_Gameplay_RotateCCW = m_Gameplay.FindAction("RotateCCW", throwIfNotFound: true);
+        m_Gameplay_ProcessTempSelect = m_Gameplay.FindAction("ProcessTempSelect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1067,6 +1088,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_HotbarChange;
     private readonly InputAction m_Gameplay_RotateCW;
     private readonly InputAction m_Gameplay_RotateCCW;
+    private readonly InputAction m_Gameplay_ProcessTempSelect;
     /// <summary>
     /// Provides access to input actions defined in input action map "Gameplay".
     /// </summary>
@@ -1110,6 +1132,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Gameplay/RotateCCW".
         /// </summary>
         public InputAction @RotateCCW => m_Wrapper.m_Gameplay_RotateCCW;
+        /// <summary>
+        /// Provides access to the underlying input action "Gameplay/ProcessTempSelect".
+        /// </summary>
+        public InputAction @ProcessTempSelect => m_Wrapper.m_Gameplay_ProcessTempSelect;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1160,6 +1186,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @RotateCCW.started += instance.OnRotateCCW;
             @RotateCCW.performed += instance.OnRotateCCW;
             @RotateCCW.canceled += instance.OnRotateCCW;
+            @ProcessTempSelect.started += instance.OnProcessTempSelect;
+            @ProcessTempSelect.performed += instance.OnProcessTempSelect;
+            @ProcessTempSelect.canceled += instance.OnProcessTempSelect;
         }
 
         /// <summary>
@@ -1195,6 +1224,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @RotateCCW.started -= instance.OnRotateCCW;
             @RotateCCW.performed -= instance.OnRotateCCW;
             @RotateCCW.canceled -= instance.OnRotateCCW;
+            @ProcessTempSelect.started -= instance.OnProcessTempSelect;
+            @ProcessTempSelect.performed -= instance.OnProcessTempSelect;
+            @ProcessTempSelect.canceled -= instance.OnProcessTempSelect;
         }
 
         /// <summary>
@@ -1551,6 +1583,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotateCCW(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ProcessTempSelect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnProcessTempSelect(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

@@ -9,16 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccb07e3030e5a9c4ab023b78e90f4759, type: 3}
-  m_Name: Foundry
+  m_Script: {fileID: 11500000, guid: 992eebc08ee84744ba0405dc95898da2, type: 3}
+  m_Name: TempItem
   m_EditorClassIdentifier: 
-  MachineName: 
-  MachineSprite: {fileID: 0}
-  Recipes: []
-  InputDirections:
-    Up: 0
-    Right: 0
-    Down: 0
-    Left: 0
-  OutputDirection: 0
-  TicksPerProduction: 0
+  ItemName: temp_item
+  ItemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  StackSize: 0

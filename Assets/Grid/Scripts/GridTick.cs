@@ -4,7 +4,7 @@ public class GridTick : MonoBehaviour
 {
     // Constants
     public const float TicksPerSecond = 10;
-    public static float TickFrequency => 1f / TicksPerSecond;
+    public static float SecondsPerTick => 1f / TicksPerSecond;
 
     // Fields
     [SerializeField] private GridLogic gridLogic;

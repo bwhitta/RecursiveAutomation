@@ -771,6 +771,7 @@ MonoBehaviour:
   defaultMachines:
   - {fileID: 11400000, guid: 0ff045d7398d3e64eada13fe3061a819, type: 2}
   - {fileID: 11400000, guid: e213e8525018b1247adde848d4bc97bd, type: 2}
+  - {fileID: 11400000, guid: 66cc93da167285845bfe9ff945635c56, type: 2}
   Slots: []
   selectedSlotIndicator: {fileID: 813059923}
 --- !u!114 &1714327748

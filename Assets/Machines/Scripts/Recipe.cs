@@ -4,22 +4,25 @@ using System;
 [Serializable]
 public class Recipe
 {
+    public Recipe(ItemStack inputItems, ItemStack outputItems)
+    {
+        InputItems = inputItems;
+        OutputItems = outputItems;
+    }
+
     // could make some of this stuff private to avoid misuse and instead make things use methods
 
-    public bool AnyInputPossible;
-    public bool ItemsPassThrough;
-    public enum ItemProcessMode { Normal, AnyInputPossible, ItemsPassThrough }
+    // disabled for now while figuring this out, will re-enable when adding conveyors
+    // public bool AnyInputPossible;
+    // public bool ItemsPassThrough;
 
-    public ItemProcessMode ProcessMode;
     public ItemStack InputItems;
     public ItemStack OutputItems;
 
     public bool AcceptsItem(Item item)
     {
-        if (item == null) Debug.LogError("Item should not be null here");
-        return AnyInputPossible || InputItems.Item == item;
+        return InputItems.Item == item;
     }
-
     public static Recipe FindRecipe(Recipe[] recipes, Item inputItem)
     {
         foreach (var recipe in recipes)
@@ -30,5 +33,12 @@ public class Recipe
             }
         }
         return null;
+    }
+
+    // for debugging purposes
+    public override string ToString()
+    {
+        // goal: 
+        return $"Inputs: {InputItems}, Outputs: {OutputItems}";
     }
 }

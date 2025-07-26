@@ -21,24 +21,29 @@ public class ProducerMachine : Machine
             }
 
             // Check if the machine has enough items for the recipe
-            if (recipe.InputItems.Item == null || inventory.ContainedItemStack.Quantity < recipe.InputItems.Quantity)
+            if (inventory.ContainedItemStack.Quantity < recipe.InputItems.Quantity && recipe.InputItems.Item != null)
             {
+                Debug.Log($"not enough items to use recipe");
                 return;
             }
 
+            
             // Try to output an item
             CardinalDirection adjustedOutputDirection = RotateCardinalDirection(OutputDirection, rotation);
             Vector2Int targetPosition = gridSpace.GridPosition + CardinalDirectionVector(adjustedOutputDirection);
-            if (gridLogic.IsPositionOnGrid(targetPosition))
+            if (!gridLogic.IsPositionOnGrid(targetPosition))
             {
-                bool successfulOutput = ItemManagement.OutputItems(gridLogic, targetPosition, recipe.OutputItems, adjustedOutputDirection, out _);
-                if (successfulOutput)
-                {
-                    // Consume the item
-                    ItemStack newItemStack = inventory.ContainedItemStack;
-                    newItemStack.Quantity -= recipe.InputItems.Quantity;
-                    inventory.ContainedItemStack = newItemStack;
-                }
+                Debug.Log($"position is off grid");
+                return;
+            }
+
+            bool successfulOutput = ItemManagement.OutputItems(gridLogic, targetPosition, recipe.OutputItems, adjustedOutputDirection, out _);
+            if (successfulOutput)
+            {
+                // Consume the item
+                ItemStack newItemStack = inventory.ContainedItemStack;
+                newItemStack.Quantity -= recipe.InputItems.Quantity;
+                inventory.ContainedItemStack = newItemStack;
             }
         }
     }

@@ -62,4 +62,11 @@ public struct ItemStack
         excessItems = new(baseStack.Item, remainingItems);
         return new(baseStack.Item, Math.Min(baseStack.Item.StackSize, totalItems));
     }
+
+    public override string ToString()
+    {
+        string itemName = "null";
+        if (Item != null) itemName = Item.name;
+        return $"{itemName}*{Quantity}";
+    }
 }

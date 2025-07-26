@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using static CardinalDirectionUtils;
+using System.Linq;
 
 public class MachineGroup
 {
@@ -14,11 +15,7 @@ public class MachineGroup
         }
 
         List<GridSpace> gridSpaces = new();
-        
-        bool anyInputAllowed = true;
-        bool itemsPassThrough = true; // not sure if this should be true or false by default, nor if it actually matters. probably true?
-        List<Recipe> possibleRecipes = new();
-        // should start out 
+        List<Recipe> machineGroupRecipes = null;
         
         CheckSpace(startingSpace);
 
@@ -33,7 +30,7 @@ public class MachineGroup
 
             // update possibleInputItems and anyInputAllowed
             var machineObject = gridSpace.GridObject as MachineObject;
-            UpdatePossibleInputs(machineObject);
+            UpdateGroupRecipes(machineObject);
 
             // Check each space that outputs to gridSpace (if it hasn't already been checked)
             List<GridSpace> linkedSpaces = LinkedAdjacentSpaces(gridSpace);
@@ -46,22 +43,45 @@ public class MachineGroup
                 }
             }
         }
-        void UpdatePossibleInputs(MachineObject machineObject)
+        
+        void UpdateGroupRecipes(MachineObject machineObject)
         {
-            // get the list of possible inputs of a machine
-            if (anyInputAllowed)
+            // this should somehow simulate for each machine pointing into a machine simultaneously. maybe take an array of machines as an input?
+
+            if (machineGroupRecipes == null)
             {
-                // if the machine has anyInputAllowed then change nothing
-                // else set the possible inputs to the machine's PossibleInput()
+                machineGroupRecipes = machineObject.PlacedMachine.Recipes.ToList();
+                return;
             }
-            else
+
+            // Find machine recipes with outputs that match a group recipe's 
+            foreach (var machineRecipe in machineObject.PlacedMachine.Recipes)
             {
-                // if the machine has anyInputAllowed then change nothing
-                // same as above, but filter the items
-                // when an input is "deconfirmed", somehow figure out how that changes possible outputs
-                // could instead calculate possible outputs at the very end, after the whole "chain" is set up
+                for (int i = 0; i < machineGroupRecipes.Count; i++)
+                {
+                    if (RecipesMatch(machineRecipe, machineGroupRecipes[i]))
+                    {
+                        Debug.Log($"recipes match! machine: {machineRecipe} IF THIS DOESN'T LOOK RIGHT OVERRIDE TOSTRING IN RECIPE", machineObject.gameObject);
+                        machineGroupRecipes[i] = CombineRecipes(machineRecipe, machineGroupRecipes[i]);
+                        Debug.Log($"new recipe: {machineGroupRecipes[i]}", machineObject.gameObject);
+                    }
+                }
             }
         }
+        bool RecipesMatch(Recipe machineRecipe, Recipe groupRecipe)
+        {
+            // check if the groupRecipe's output matches the machineRecipe's input
+            return groupRecipe.AcceptsItem(machineRecipe.OutputItems.Item);
+        }
+        Recipe CombineRecipes(Recipe machineRecipe, Recipe groupRecipe)
+        {
+            ItemStack newInputs = machineRecipe.InputItems;
+            ItemStack newOutputs = groupRecipe.OutputItems;
+            Recipe newRecipe = new(newInputs, newOutputs);
+
+            return newRecipe;
+        }
+
         List<GridSpace> LinkedAdjacentSpaces(GridSpace gridSpace)
         {
             List<GridSpace> linkedSpaces = new();

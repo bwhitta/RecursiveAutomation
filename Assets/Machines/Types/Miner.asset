@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb07e3030e5a9c4ab023b78e90f4759, type: 3}
   m_Name: Miner
   m_EditorClassIdentifier: 
-  MachineName: 
-  MachineSprite: {fileID: 0}
-  Recipes: []
+  MachineName: Miner
+  MachineSprite: {fileID: 21300000, guid: 48495aaabb844674b9f137f3051258d8, type: 3}
+  Recipes:
+  - InputItems:
+      Item: {fileID: 0}
+      _quantity: 0
+    OutputItems:
+      Item: {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
+      _quantity: 1
   InputDirections:
     Up: 0
     Right: 0
     Down: 0
     Left: 0
   OutputDirection: 0
-  TicksPerProduction: 0
+  TicksPerProduction: 10

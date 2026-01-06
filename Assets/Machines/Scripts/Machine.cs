@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using static CardinalDirectionUtils;
 
 public abstract class Machine : ScriptableObject
@@ -8,7 +7,7 @@ public abstract class Machine : ScriptableObject
     public string MachineName;
     public Sprite MachineSprite;
 
-    public Recipe[] Recipes;
+    public Recipe MachineRecipe;
     public MultiCardinalDirections InputDirections;
     public CardinalDirection OutputDirection;
 

@@ -1,129 +1,65 @@
 using UnityEngine;
 using System.Collections.Generic;
-using static CardinalDirectionUtils;
-using System.Linq;
 
+[System.Serializable]
 public class MachineGroup
 {
+    // could replace the current method of calculating machinesTargetingThis with a dictionary that is created when the constructor is first run
+    // the key would be a specific machine, and the value would be an array of every machine that targets it.
+    // this would mainly be useful if there are machines that target machines besides their adjacent space
+
+    // to avoid infinite loops once machines have multiple outputs, make it so that when a space's outputs are calculated it actually calculates the possible outputs for each of its directions
+    
     // Constructor
-    public MachineGroup(GridLogic gridLogic, GridSpace startingSpace)
+    public MachineGroup(GridLogic gridLogic, GridSpace gridSpace)
     {
-        if (startingSpace.GridObject as MachineObject == null)
-        {
-            Debug.LogWarning("starting space is not a machine object!");
-            return;
-        }
-
-        List<GridSpace> gridSpaces = new();
-        List<Recipe> machineGroupRecipes = null;
-        
-        CheckSpace(startingSpace);
-
-        // display what machines were found (temp)
-        DisplayGridSpaces();
-        
-        // Local Methods
-        void CheckSpace(GridSpace gridSpace)
-        {
-            Debug.Log($"checking space ({gridSpace.GridPosition.x}, {gridSpace.GridPosition.y})", gridSpace.gameObject);
-            gridSpaces.Add(gridSpace);
-
-            // update possibleInputItems and anyInputAllowed
-            var machineObject = gridSpace.GridObject as MachineObject;
-            UpdateGroupRecipes(machineObject);
-
-            // Check each space that outputs to gridSpace (if it hasn't already been checked)
-            List<GridSpace> linkedSpaces = LinkedAdjacentSpaces(gridSpace);
-            foreach (var linkedSpace in linkedSpaces)
-            {
-                Debug.Log($"linked space found!", linkedSpace.gameObject);
-                if (!gridSpaces.Contains(linkedSpace))
-                {
-                    CheckSpace(linkedSpace);
-                }
-            }
-        }
-        
-        void UpdateGroupRecipes(MachineObject machineObject)
-        {
-            // this should somehow simulate for each machine pointing into a machine simultaneously. maybe take an array of machines as an input?
-
-            if (machineGroupRecipes == null)
-            {
-                machineGroupRecipes = machineObject.PlacedMachine.Recipes.ToList();
-                return;
-            }
-
-            // Find machine recipes with outputs that match a group recipe's 
-            foreach (var machineRecipe in machineObject.PlacedMachine.Recipes)
-            {
-                for (int i = 0; i < machineGroupRecipes.Count; i++)
-                {
-                    if (RecipesMatch(machineRecipe, machineGroupRecipes[i]))
-                    {
-                        Debug.Log($"recipes match! machine: {machineRecipe} IF THIS DOESN'T LOOK RIGHT OVERRIDE TOSTRING IN RECIPE", machineObject.gameObject);
-                        machineGroupRecipes[i] = CombineRecipes(machineRecipe, machineGroupRecipes[i]);
-                        Debug.Log($"new recipe: {machineGroupRecipes[i]}", machineObject.gameObject);
-                    }
-                }
-            }
-        }
-        bool RecipesMatch(Recipe machineRecipe, Recipe groupRecipe)
-        {
-            // check if the groupRecipe's output matches the machineRecipe's input
-            return groupRecipe.AcceptsItem(machineRecipe.OutputItems.Item);
-        }
-        Recipe CombineRecipes(Recipe machineRecipe, Recipe groupRecipe)
-        {
-            ItemStack newInputs = machineRecipe.InputItems;
-            ItemStack newOutputs = groupRecipe.OutputItems;
-            Recipe newRecipe = new(newInputs, newOutputs);
-
-            return newRecipe;
-        }
-
-        List<GridSpace> LinkedAdjacentSpaces(GridSpace gridSpace)
-        {
-            List<GridSpace> linkedSpaces = new();
-            List<GridSpace> adjacentSpaces = gridSpace.AdjacentSpaces(gridLogic, gridSpace);
-            foreach (var adjacentSpace in adjacentSpaces)
-            {
-                // check if the adjacent space has a machine that targets this one
-                if (adjacentSpace.GridObject != null && GridSpaceOutputTarget(adjacentSpace) == gridSpace)
-                {
-                    linkedSpaces.Add(adjacentSpace);
-                }
-            }
-            return linkedSpaces;
-        }
-        GridSpace GridSpaceOutputTarget(GridSpace gridSpace)
-        {
-            var machineObject = gridSpace.GridObject as MachineObject;
-            if (machineObject != null)
-            {
-                CardinalDirection outputDirection = RotateCardinalDirection(machineObject.PlacedMachine.OutputDirection, machineObject.Rotation);
-                Vector2Int gridPosition = gridSpace.GridPosition + CardinalDirectionVector(outputDirection);
-                return gridLogic.GridSpaces[gridPosition.x, gridPosition.y];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        // temporary method for visualization
-        void DisplayGridSpaces()
-        {
-            foreach (var space in gridSpaces)
-            {
-                space.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
-            }
-        }
+        GroupRecipe = GetMachineRecipe(gridLogic, gridSpace/*, out ItemStack groupInputs*/);
+        Debug.Log($"Final group recipe: {GroupRecipe}");
     }
 
-    // eventually will want to turn the outputs into a dictionary, with the item as a key and the items/sec as the value
-    public Item GroupOutputs;
-    public float OutputItemsPerSecond;
-    
-    // probably should eventually make this and MachineObjects derive from a common interface that has CalculateOutputs, probably called IOutputsItems
-    // as well as both deriving from IAcceptsItems (which should be split off from IContainsItems)
+    // Fields
+    public Recipe GroupRecipe;
+
+    // Methods
+    // todo: add support for multiple recipes, add support for input bottlenecking
+    private Recipe GetMachineRecipe(GridLogic gridLogic, GridSpace gridSpace)
+    {
+        MachineObject machineObject = gridSpace.GridObject as MachineObject;
+        Machine machine = machineObject.PlacedMachine;
+        
+        Debug.Log($"Checking gridSpace at {gridSpace.GridPosition}", gridSpace);
+
+        // If the machine doesn't need inputs it always outputs.
+        if (machine.MachineRecipe.InputItems.Item == null)
+        {
+            return machine.MachineRecipe;
+        }
+
+        // All items that are outputed by machines targeting this
+        // (later: return both a minimum outputs which assumes no external inputs, and a maximum output, assuming there is external input. or I need to figure out a way to make a seperate recipe based on each one or something)
+        // could essentially have the final recipe say "this recipe accepts up 3 items/sec from either or both of these directions, outputs 2 items/sec when fed, and w/out any inputs this recipe makes 1 items/sec)
+        ItemStack inputs = new();
+        ItemStack outputs = new();
+
+
+        // Calculate inputs
+        foreach (GridSpace targetingMachine in gridSpace.MachinesTargetingSpace(gridLogic))
+        {
+            // Get the output of the machine using this same method
+            // If the machine needs an input but can't get it, then return null (no recipe)
+            // (ADD LATER) If the machine needs an input and it's next to an input space (probably will use the middle left space for now) then return its input and output
+            Recipe targetingRecipe = GetMachineRecipe(gridLogic, targetingMachine);
+            
+            if (targetingRecipe.OutputItems.Item == machine.MachineRecipe.InputItems.Item)
+            {
+                inputs.Item = targetingRecipe.OutputItems.Item;
+                inputs.Quantity += targetingRecipe.OutputItems.Quantity;
+            }
+        }
+
+        // Calculate outputs based on inputs (cap to bottleneck)
+        float percentFulfilled = Mathf.Max(1, inputs.Quantity / machine.MachineRecipe.InputItems.Quantity);
+
+        return new Recipe(inputs, outputs);
+    }
 }

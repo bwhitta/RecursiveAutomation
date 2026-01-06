@@ -31,12 +31,10 @@ public class MachineObject : MonoBehaviour, IFillsGridSlot, IContainsItemStack
         gameObject.name = PlacedMachine.name + "Object";
         spriteRenderer.sprite = PlacedMachine.MachineSprite;
     }
-
     public void Tick(GridLogic gridLogic, GridSpace gridSpace, int tick)
     {
         PlacedMachine.MachineTick(gridLogic, gridSpace, Rotation, tick);
     }
-
     public bool AcceptsItem(Item item, CardinalDirection direction)
     {
         bool itemTypeAccepted = PlacedMachine.AcceptsItem(item);

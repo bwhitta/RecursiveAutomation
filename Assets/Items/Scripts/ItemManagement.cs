@@ -11,7 +11,7 @@ public static class ItemManagement
             var targetInventory = targetGridSpace.GridObject as IContainsItemStack;
             if (targetInventory != null && targetInventory.AcceptsItem(producedItems.Item, outputDirection))
             {
-                targetInventory.ContainedItemStack = ItemStack.AddItemStack(targetInventory.ContainedItemStack, producedItems, out excessItems);
+                targetInventory.ContainedItemStack = ItemStack.AddItemStacks(targetInventory.ContainedItemStack, producedItems, out excessItems);
                 bool succesfulOutput = excessItems.Quantity != producedItems.Quantity;
                 return succesfulOutput;
             }
@@ -23,7 +23,6 @@ public static class ItemManagement
         }
         else
         {
-
             grid.CreateDroppedItem(targetPosition, producedItems);
             excessItems = default;
             return true;

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -31,42 +33,47 @@ public struct ItemStack
             {
                 Item = null;
             }
-            else if (value > Item.StackSize)
-            {
-                _quantity = Item.StackSize;
-            }
-            else
-            {
-                _quantity = value;
-            }
+            _quantity = value;
         }
     }
 
     // Methods
-    /// <returns>If any items were able to be added</returns>
-    public static ItemStack AddItemStack(ItemStack baseStack, ItemStack addedStack, out ItemStack excessItems)
+    public static ItemStack AddItemStacks(ItemStack baseStack, ItemStack addedStack, out ItemStack excessItems, bool limitStackSize = false)
     {
         if (baseStack.Item == null)
         {
             excessItems = default;
             return addedStack;
         }
-        else if (baseStack.Item != addedStack.Item || baseStack.Quantity == baseStack.Item.StackSize)
+        else if (baseStack.Item != addedStack.Item)
         {
+            // Item stacks not compatible
             excessItems = addedStack;
             return baseStack;
         }
+        else
+        {
+            uint totalItems = baseStack.Quantity + addedStack.Quantity;
 
-        uint totalItems = baseStack.Quantity + addedStack.Quantity;
-        uint remainingItems = baseStack.Item.StackSize - totalItems;
-        excessItems = new(baseStack.Item, remainingItems);
-        return new(baseStack.Item, Math.Min(baseStack.Item.StackSize, totalItems));
+            // Calculate excess items
+            if (limitStackSize)
+            {
+                excessItems = new(baseStack.Item, baseStack.Item.StackSize - totalItems);
+                return new(baseStack.Item, Math.Min(baseStack.Item.StackSize, totalItems));
+            }
+            else
+            {
+                excessItems = default;
+                return new(baseStack.Item, totalItems);
+            }
+        }
     }
 
-    public override string ToString()
+    public override readonly string ToString()
     {
         string itemName = "null";
         if (Item != null) itemName = Item.name;
         return $"{itemName}*{Quantity}";
     }
+
 }

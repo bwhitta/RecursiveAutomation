@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MachineName: Foundry
   MachineSprite: {fileID: 21300000, guid: 37a06ea34d868a94d8132fe97d824682, type: 3}
-  Recipes:
-  - InputItems:
+  MachineRecipe:
+    InputItems:
       Item: {fileID: 11400000, guid: 77629769e2bae4b4b8201d2c5d661f27, type: 2}
       _quantity: 1
     OutputItems:

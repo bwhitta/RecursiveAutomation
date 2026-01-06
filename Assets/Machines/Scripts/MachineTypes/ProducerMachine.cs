@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using static CardinalDirectionUtils;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/Machines/Converter Machine")]
@@ -14,26 +13,24 @@ public class ProducerMachine : Machine
         if ((tick % TicksPerProduction) == 0)
         {
             var inventory = gridSpace.GridObject as IContainsItemStack;
-            Recipe recipe = Recipe.FindRecipe(Recipes, inventory.ContainedItemStack.Item);
-            if (recipe == null)
-            {
-                return;
-            }
-
+            
             // Check if the machine has enough items for the recipe
-            if (inventory.ContainedItemStack.Quantity < recipe.InputItems.Quantity && recipe.InputItems.Item != null)
+            if (inventory.ContainedItemStack.Quantity < MachineRecipe.InputItems.Quantity && MachineRecipe.InputItems.Item != null)
             {
                 Debug.Log($"not enough items to use recipe");
                 return;
             }
+            TryOutputItem(MachineRecipe, inventory);
+        }
 
-            
+        // Local Methods
+        void TryOutputItem(Recipe recipe, IContainsItemStack inventory)
+        {
             // Try to output an item
             CardinalDirection adjustedOutputDirection = RotateCardinalDirection(OutputDirection, rotation);
             Vector2Int targetPosition = gridSpace.GridPosition + CardinalDirectionVector(adjustedOutputDirection);
             if (!gridLogic.IsPositionOnGrid(targetPosition))
             {
-                Debug.Log($"position is off grid");
                 return;
             }
 
@@ -49,26 +46,6 @@ public class ProducerMachine : Machine
     }
     public override bool AcceptsItem(Item item)
     {
-        foreach (var recipe in Recipes)
-        {
-            if (recipe.AcceptsItem(item))
-            {
-                return true;
-            }
-        }
-        return false;
+        return MachineRecipe.InputItems.Item == item;
     }
-    /*public override Item CalculateOutputs(Item inputItem, float inputQuantityPerSecond, out float quantityPerSecond)
-    {
-        Debug.Log("rates currently are not slowed by having a lack of items");
-
-        float productionsPerSecond = GridTick.TicksPerSecond * TicksPerProduction;
-        Recipe usedRecipe = Array.Find(Recipes, MatchingInputItem);
-
-        quantityPerSecond = productionsPerSecond * usedRecipe.OutputItems.Quantity;
-        return usedRecipe.OutputItems.Item;
-
-        // Local Methods
-        bool MatchingInputItem(Recipe recipe) => recipe.AcceptsItem(inputItem);
-    }*/
 }

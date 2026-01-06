@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 992eebc08ee84744ba0405dc95898da2, type: 3}
-  m_Name: TempItem
+  m_Name: CopperIngot
   m_EditorClassIdentifier: 
-  ItemName: temp_item
-  ItemSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  ItemName: Copper Ingot
+  ItemSprite: {fileID: 21300000, guid: a033f89e68e1b7d42b1c7e641624d5c9, type: 3}
   StackSize: 16

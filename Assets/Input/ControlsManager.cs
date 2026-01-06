@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public static class ControlsManager
+public class ControlsManager : MonoBehaviour
 {
     // Properties
     private static GameControls _gameControlsInstance;
@@ -15,23 +14,23 @@ public static class ControlsManager
         }
     }
     
-    public static InputAction Interact => GetInputAction(Controls.Gameplay.Interact);
-    public static InputAction Remove => GetInputAction(Controls.Gameplay.Remove);
-    public static InputAction PickItem => GetInputAction(Controls.Gameplay.PickItem);
-    public static InputAction Point => GetInputAction(Controls.Gameplay.Point);
-    public static InputAction HotbarSelect => GetInputAction(Controls.Gameplay.HotbarSelect);
-    public static InputAction HotbarChange => GetInputAction(Controls.Gameplay.HotbarChange);
-    public static InputAction RotateCW => GetInputAction(Controls.Gameplay.RotateCW);
-    public static InputAction RotateCCW => GetInputAction(Controls.Gameplay.RotateCCW);
-    public static InputAction ProcessTempSelect => GetInputAction(Controls.Gameplay.ProcessTempSelect); //temp
+    public static InputAction Interact => Controls.Gameplay.Interact;
+    public static InputAction Remove => Controls.Gameplay.Remove;
+    public static InputAction PickItem => Controls.Gameplay.PickItem;
+    public static InputAction Point => Controls.Gameplay.Point;
+    public static InputAction HotbarSelect => Controls.Gameplay.HotbarSelect;
+    public static InputAction HotbarChange => Controls.Gameplay.HotbarChange;
+    public static InputAction RotateCW => Controls.Gameplay.RotateCW;
+    public static InputAction RotateCCW => Controls.Gameplay.RotateCCW;
+    public static InputAction ProcessTempSelect => Controls.Gameplay.ProcessTempSelect; //temp
 
     // Methods
-    private static InputAction GetInputAction(InputAction inputAction)
+    private void OnEnable()
     {
-        if (!inputAction.enabled)
-        {
-            inputAction.Enable();
-        }
-        return inputAction;
+        Controls.Gameplay.Enable();
+    }
+    private void OnDisable()
+    {
+        Controls.Gameplay.Disable();
     }
 }
